@@ -106,8 +106,8 @@ public class controladores {
 
     @PostMapping("/GuardarUsuario")
     public String guardarUsuario(Usuario user, RedirectAttributes redirectAttributes){
-        String passEncriptada=passwordEncoder().encode(user.getPassword());
-        user.setPassword(passEncriptada);
+       // String passEncriptada=passwordEncoder().encode(user.getPassword());
+       // user.setPassword(passEncriptada);
         if(servicioUsuario.saveOrUpdateUsuario(user)==true){
             redirectAttributes.addFlashAttribute("mensaje","saveOK");
             return "redirect:/UsuarioHtml";
@@ -128,8 +128,8 @@ public class controladores {
 
     @PostMapping("/ActualizarUsuario")
     public String updateUsuario(@ModelAttribute("user") Usuario user, RedirectAttributes redirectAttributes){
-        String passEncriptada=passwordEncoder().encode(user.getPassword());
-        user.setPassword(passEncriptada);
+        //String passEncriptada=passwordEncoder().encode(user.getPassword());
+        //user.setPassword(passEncriptada);
         if(servicioUsuario.saveOrUpdateUsuario(user)){
             redirectAttributes.addFlashAttribute("mensaje","updateOK");
             return "redirect:/UsuarioHtml";
