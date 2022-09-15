@@ -30,8 +30,8 @@ public class ServicioUsuario {
     }
 
     public boolean saveOrUpdateUsuario(Usuario user){
-        Usuario emp=repositorioUsuario.save(user);
-        if (repositorioUsuario.findById(emp.getId())!=null){
+        Usuario usa=repositorioUsuario.save(user);
+        if (repositorioUsuario.findById(usa.getId())!=null){
             return true;
         }
         return false;

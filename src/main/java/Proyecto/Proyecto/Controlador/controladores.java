@@ -88,72 +88,71 @@ public class controladores {
 
     @GetMapping ("/UsuarioHtml")
     public String viewUsuario(Model model, @ModelAttribute("mensaje") String mensaje){
-        List<Usuario> listaUsuario=servicioUsuario.getAllUsuario();
-        model.addAttribute("Usuariolist",listaUsuario);
+        List<Usuario> usuarioList=servicioUsuario.getAllUsuario();
+        model.addAttribute("usuarioList",usuarioList);
         model.addAttribute("mensaje",mensaje);
         return "UsuarioHtml";
     }
 
-    @GetMapping("/AgregarEmpleado")
-    public String nuevoEmpleado(Model model, @ModelAttribute("mensaje") String mensaje){
-        Empleado empl= new Empleado();
-        model.addAttribute("empl",empl);
+    @GetMapping("/AgregarUsuario")
+    public String nuevoUsuario(Model model, @ModelAttribute("mensaje") String mensaje){
+        Usuario user= new Usuario();
+        model.addAttribute("user",user);
         model.addAttribute("mensaje",mensaje);
-        List<Empresa> listaEmpresas= empresaService.getAllEmpresas();
-        model.addAttribute("emprelist",listaEmpresas);
-        return "agregarEmpleado"; //Llamar HTML
+        List<Empresa> empresaList= servicioEmpresa.getAllEmpresas();
+        model.addAttribute("usuarioList",empresaList);
+        return "agregarUsuario";
     }
 
-    @PostMapping("/GuardarEmpleado")
-    public String guardarEmpleado(Empleado empl, RedirectAttributes redirectAttributes){
-        String passEncriptada=passwordEncoder().encode(empl.getPassword());
-        empl.setPassword(passEncriptada);
-        if(empleadoService.saveOrUpdateEmpleado(empl)==true){
+    @PostMapping("/GuardarUsuario")
+    public String guardarUsuario(Usuario user, RedirectAttributes redirectAttributes){
+        String passEncriptada=passwordEncoder().encode(user.getPassword());
+        user.setPassword(passEncriptada);
+        if(servicioUsuario.saveOrUpdateUsuario(user)==true){
             redirectAttributes.addFlashAttribute("mensaje","saveOK");
-            return "redirect:/VerEmpleados";
+            return "redirect:/UsuarioHtml";
         }
         redirectAttributes.addFlashAttribute("mensaje","saveError");
-        return "redirect:/AgregarEmpleado";
+        return "redirect:/AgregarUsuario";
     }
 
-    @GetMapping("/EditarEmpleado/{id}")
-    public String editarEmpleado(Model model, @PathVariable Integer id, @ModelAttribute("mensaje") String mensaje){
-        Empleado empl=empleadoService.getEmpleadoById(id).get();
-        //Creamos un atributo para el modelo, que se llame igualmente empl y es el que ira al html para llenar o alimentar campos
-        model.addAttribute("empl",empl);
+    @GetMapping("/EditarUsuario/{id}")
+    public String editarUsuario(Model model, @PathVariable Long id, @ModelAttribute("mensaje") String mensaje){
+        Usuario user=servicioUsuario.getUsuarioById(id).get();
+        model.addAttribute("user",user);
         model.addAttribute("mensaje", mensaje);
-        List<Empresa> listaEmpresas= empresaService.getAllEmpresas();
-        model.addAttribute("emprelist",listaEmpresas);
-        return "editarEmpleado";
+        List<Empresa> empresaList= servicioEmpresa.getAllEmpresas();
+        model.addAttribute("usuarioList",empresaList);
+        return "editarUsuario";
     }
 
-    @PostMapping("/ActualizarEmpleado")
-    public String updateEmpleado(@ModelAttribute("empl") Empleado empl, RedirectAttributes redirectAttributes){
-        String passEncriptada=passwordEncoder().encode(empl.getPassword());
-        empl.setPassword(passEncriptada);
-        if(empleadoService.saveOrUpdateEmpleado(empl)){
+    @PostMapping("/ActualizarUsuario")
+    public String updateUsuario(@ModelAttribute("user") Usuario user, RedirectAttributes redirectAttributes){
+        String passEncriptada=passwordEncoder().encode(user.getPassword());
+        user.setPassword(passEncriptada);
+        if(servicioUsuario.saveOrUpdateUsuario(user)){
             redirectAttributes.addFlashAttribute("mensaje","updateOK");
-            return "redirect:/VerEmpleados";
+            return "redirect:/UsuarioHtml";
         }
         redirectAttributes.addFlashAttribute("mensaje","updateError");
-        return "redirect:/EditarEmpleado/"+empl.getId();
+        return "redirect:/EditarUsuario/"+user.getId();
 
     }
 
-    @GetMapping("/EliminarEmpleado/{id}")
-    public String eliminarEmpleado(@PathVariable Integer id, RedirectAttributes redirectAttributes){
-        if (empleadoService.deleteEmpleado(id)){
+    @GetMapping("/EliminarUsuario/{id}")
+    public String eliminarUsuario(@PathVariable Long id, RedirectAttributes redirectAttributes){
+        if (servicioUsuario.deleteUsuario(id)){
             redirectAttributes.addFlashAttribute("mensaje","deleteOK");
-            return "redirect:/VerEmpleados";
+            return "redirect:/UsuarioHtml";
         }
         redirectAttributes.addFlashAttribute("mensaje", "deleteError");
-        return "redirect:/VerEmpleados";
+        return "redirect:/UsuarioHtml";
     }
 
-    @GetMapping("/Empresa/{id}/Empleados") //Filtrar los empleados por empresa
-    public String verEmpleadosPorEmpresa(@PathVariable("id") Integer id, Model model){
-        List<Empleado> listaEmpleados = empleadoService.obtenerPorEmpresa(id);
-        model.addAttribute("emplelist",listaEmpleados);
-        return "verEmpleados"; //Llamamos al html con el emplelist de los empleados filtrados
+    @GetMapping("/Empresa/{id}/Usuario") //Filtrar los empleados por empresa
+    public String verUsuarioPorEmpresa(@PathVariable("id") Long id, Model model){
+        List<Usuario> usuarioList = servicioUsuario.obtenerPorEmpresa(id);
+        model.addAttribute("usuarioList",usuarioList);
+        return "verUsuario";
     }
 }
