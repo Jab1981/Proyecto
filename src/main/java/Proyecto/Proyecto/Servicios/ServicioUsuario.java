@@ -16,7 +16,7 @@ public class ServicioUsuario {
     RepositorioUsuario repositorioUsuario;
 
 
-    public List<Usuario> getAllEmpleado(){
+    public List<Usuario> getAllUsuario(){
         List<Usuario> usuarioList= new ArrayList<>();
         repositorioUsuario.findAll().forEach(usuario -> usuarioList.add(usuario));
         return usuarioList;
@@ -29,7 +29,7 @@ public class ServicioUsuario {
         return repositorioUsuario.findByEmpresa(id);
     }
 
-    public boolean saveOrUpdateEmpleado(Usuario user){
+    public boolean saveOrUpdateUsuario(Usuario user){
         Usuario emp=repositorioUsuario.save(user);
         if (repositorioUsuario.findById(emp.getId())!=null){
             return true;
