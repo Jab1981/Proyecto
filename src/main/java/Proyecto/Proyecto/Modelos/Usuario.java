@@ -16,18 +16,14 @@ public class Usuario {
     @JoinColumn (name = "Empresa_id")
     private Empresa empresa;
 
-    @OneToMany (mappedBy = "usuario",fetch = FetchType.LAZY)
-    private List<Movimientos> movimiento;
-
     public Usuario() {
     }
 
-    public Usuario(String nombre, String correo, Rol roles, Empresa empresa, List<Movimientos> movimiento) {
+    public Usuario(String nombre, String correo, Rol roles, Empresa empresa) {
         this.nombre = nombre;
         this.correo = correo;
         this.roles = roles;
         this.empresa = empresa;
-        this.movimiento = movimiento;
     }
 
     public Long getId() {
@@ -68,13 +64,5 @@ public class Usuario {
 
     public void setEmpresa(Empresa empresa) {
         this.empresa = empresa;
-    }
-
-    public List<Movimientos> getMovimiento() {
-        return movimiento;
-    }
-
-    public void setMovimiento(List<Movimientos> movimiento) {
-        this.movimiento = movimiento;
     }
 }

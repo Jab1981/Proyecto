@@ -15,18 +15,14 @@ public class Empresa {
     private String telefono;
     private String nit;
 
-    @OneToMany (mappedBy = "empresa",fetch = FetchType.LAZY)
-    private List<Usuario> user;
-
     public Empresa() {
     }
 
-    public Empresa(String nombre, String direccion, String telefono, String nit, List<Usuario> user) {
+    public Empresa(String nombre, String direccion, String telefono, String nit) {
         this.nombre = nombre;
         this.direccion = direccion;
         this.telefono = telefono;
         this.nit = nit;
-        this.user = user;
     }
 
     public Long getId() {
@@ -67,13 +63,5 @@ public class Empresa {
 
     public void setNit(String nit) {
         this.nit = nit;
-    }
-
-    public List<Usuario> getUser() {
-        return user;
-    }
-
-    public void setUser(List<Usuario> user) {
-        this.user = user;
     }
 }
