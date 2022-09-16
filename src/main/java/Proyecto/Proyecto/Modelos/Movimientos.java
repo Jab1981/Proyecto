@@ -1,6 +1,9 @@
 package Proyecto.Proyecto.Modelos;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "Movimiento")
@@ -13,14 +16,17 @@ public class Movimientos {
     @ManyToOne
     @JoinColumn (name = "Usuario_id")
     private Usuario usuario;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date fecha;
 
     public Movimientos() {
     }
 
-    public Movimientos(Long monto, String concepto, Usuario usuario) {
+    public Movimientos(Long monto, String concepto, Usuario usuario, Date fecha) {
         this.monto = monto;
         this.concepto = concepto;
         this.usuario = usuario;
+        this.fecha = fecha;
     }
 
     public Long getId() {
@@ -55,4 +61,11 @@ public class Movimientos {
         this.usuario = usuario;
     }
 
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
 }

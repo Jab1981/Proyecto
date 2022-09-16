@@ -10,20 +10,23 @@ public class Usuario {
     private Long id;
     private String nombre;
     private String correo;
-    @Enumerated (value = EnumType.STRING)
-    private Rol roles;
     @ManyToOne
     @JoinColumn (name = "Empresa_id")
     private Empresa empresa;
+    private String rol;
+    private String password;
+    private Boolean estado;
 
     public Usuario() {
     }
 
-    public Usuario(String nombre, String correo, Rol roles, Empresa empresa) {
+    public Usuario(String nombre, String correo, Empresa empresa, String rol, String password, Boolean estado) {
         this.nombre = nombre;
         this.correo = correo;
-        this.roles = roles;
         this.empresa = empresa;
+        this.rol = rol;
+        this.password = password;
+        this.estado = estado;
     }
 
     public Long getId() {
@@ -50,19 +53,35 @@ public class Usuario {
         this.correo = correo;
     }
 
-    public Rol getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Rol roles) {
-        this.roles = roles;
-    }
-
     public Empresa getEmpresa() {
         return empresa;
     }
 
     public void setEmpresa(Empresa empresa) {
         this.empresa = empresa;
+    }
+
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Boolean getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
     }
 }

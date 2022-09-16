@@ -32,7 +32,7 @@
         <th>ID</th>
         <th>Nombre</th>
         <th>Dirección</th>
-        <th>Telefono</th>
+        <th>Teléfono</th>
         <th>NIT</th>
         <th>Usuario</th>
         <th>Movimientos</th>
@@ -43,23 +43,23 @@
 
     <!--Llenamos la tabla dibujada-->
     <!--En nuestro controller, creamos en viewEmpresa un modelo con un atributo llamado emplist donde esta guardada la lista de todas las empresas-->
-    <tr th:each="empresa : ${emplist}">
-        <td th:text="${empresa.id}"></td>
-        <td th:text="${empresa.nombre}"></td>
-        <td th:text="${empresa.direccion}"></td>
-        <td th:text="${empresa.telefono}"></td>
-        <td th:text="${empresa.NIT}"></td>
-        <td><button type="button" class="btn btn-info"><a th:href="@{/Empresa/{id}/Empleados (id=${empresa.id})}">Ver</a></button></td>
-        <td><button type="button" class="btn btn-primary"><a th:href="@{/Empresa/{id}/Movimientos (id=${empresa.id})}">Ver</a></button></td>
-        <td><button type="button" class="btn btn-warning"><a th:href="@{/EditarEmpresa/{id}(id=${empresa.id})}">Editar</a></button></td>
-        <td><button type="button" class="btn btn-danger"><a th:href="@{/EliminarEmpresa/{id}(id=${empresa.id})}">Eliminar</a></button></td>
+    <tr th:each="Empresa : ${usuarioList}">
+        <td th:text="${Empresa.id}"></td>
+        <td th:text="${Empresa.nombre}"></td>
+        <td th:text="${Empresa.direccion}"></td>
+        <td th:text="${Empresa.telefono}"></td>
+        <td th:text="${Empresa.nit}"></td>
+        <td><button type="button" class="btn btn-info"><a th:href="@{/Empresa/{id}/Usuario (id=${Empresa.id})}">Ver</a></button></td>
+        <td><button type="button" class="btn btn-primary"><a th:href="@{/Empresa/{id}/Movimientos (id=${Empresa.id})}">Ver</a></button></td>
+        <td><button type="button" class="btn btn-warning"><a th:href="@{/EditarEmpresa/{id}(id=${Empresa.id})}">Editar</a></button></td>
+        <td><button type="button" class="btn btn-danger"><a th:href="@{/EliminarEmpresa/{id}(id=${Empresa.id})}">Eliminar</a></button></td>
     </tr>
 </table>
 
     <!-- vamos a crear un boton que sirva para agregar nuevas empresas -->
     <button type="button" class="btn btn-info"><a th:href="@{/AgregarEmpresa}">Agregar Nueva Empresa</a></button>
     <br><br>
-    <button type="button" class="btn btn-primary"><a th:href="@{/VerUsuario}">Ver lista de Usuario</a></button>
+    <button type="button" class="btn btn-primary"><a th:href="@{/UsuarioHtml}">Ver lista de Usuario</a></button>
 
 </div>
 

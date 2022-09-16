@@ -1,18 +1,23 @@
 package Proyecto.Proyecto.Controlador;
 
 import Proyecto.Proyecto.Modelos.Empresa;
+import Proyecto.Proyecto.Modelos.Movimientos;
 import Proyecto.Proyecto.Modelos.Usuario;
 import Proyecto.Proyecto.Repositorios.RepositorioMovimientos;
 import Proyecto.Proyecto.Servicios.ServicioEmpresa;
 import Proyecto.Proyecto.Servicios.ServicioMovimientos;
 import Proyecto.Proyecto.Servicios.ServicioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -29,12 +34,12 @@ public class controladores {
     @Autowired
     RepositorioMovimientos repositorioMovimientos;
 
-    //EMPRESAS
+    //Empresa
     //Interfaz empresa Html
     @GetMapping({"/","/EmpresaHtml"})
     public String viewEmpresas(Model model, @ModelAttribute("mensaje") String mensaje){
-        List<Empresa> listaEmpresas=servicioEmpresa.getAllEmpresas();
-        model.addAttribute("emplist",listaEmpresas);
+        List<Empresa> empresaList=servicioEmpresa.getAllEmpresas();
+        model.addAttribute("empresaList",empresaList);
         model.addAttribute("mensaje",mensaje);
         return "EmpresaHtml";
     }
@@ -43,7 +48,7 @@ public class controladores {
         Empresa emp= new Empresa();
         model.addAttribute("emp",emp);
         model.addAttribute("mensaje",mensaje);
-        return "agregarEmpresa";
+        return "AgregarEmpresa";
     }
 
     @PostMapping("/GuardarEmpresa")
@@ -61,7 +66,7 @@ public class controladores {
         Empresa emp=servicioEmpresa.getEmpresaById(id);
         model.addAttribute("emp",emp);
         model.addAttribute("mensaje", mensaje);
-        return "editarEmpresa";
+        return "EditarEmpresa";
     }
 
 
@@ -85,7 +90,8 @@ public class controladores {
         redirectAttributes.addFlashAttribute("mensaje", "deleteError");
         return "redirect:/EmpresaHtml";
     }
-
+    //Usuario
+    //Interfaz Usuario Html
     @GetMapping ("/UsuarioHtml")
     public String viewUsuario(Model model, @ModelAttribute("mensaje") String mensaje){
         List<Usuario> usuarioList=servicioUsuario.getAllUsuario();
@@ -106,8 +112,8 @@ public class controladores {
 
     @PostMapping("/GuardarUsuario")
     public String guardarUsuario(Usuario user, RedirectAttributes redirectAttributes){
-       // String passEncriptada=passwordEncoder().encode(user.getPassword());
-       // user.setPassword(passEncriptada);
+       String passEncriptada=passwordEncoder().encode(user.getPassword());
+       user.setPassword(passEncriptada);
         if(servicioUsuario.saveOrUpdateUsuario(user)==true){
             redirectAttributes.addFlashAttribute("mensaje","saveOK");
             return "redirect:/UsuarioHtml";
@@ -123,13 +129,13 @@ public class controladores {
         model.addAttribute("mensaje", mensaje);
         List<Empresa> empresaList= servicioEmpresa.getAllEmpresas();
         model.addAttribute("usuarioList",empresaList);
-        return "editarUsuario";
+        return "EditarUsuario";
     }
 
     @PostMapping("/ActualizarUsuario")
     public String updateUsuario(@ModelAttribute("user") Usuario user, RedirectAttributes redirectAttributes){
-        //String passEncriptada=passwordEncoder().encode(user.getPassword());
-        //user.setPassword(passEncriptada);
+        String passEncriptada=passwordEncoder().encode(user.getPassword());
+        user.setPassword(passEncriptada);
         if(servicioUsuario.saveOrUpdateUsuario(user)){
             redirectAttributes.addFlashAttribute("mensaje","updateOK");
             return "redirect:/UsuarioHtml";
@@ -149,10 +155,110 @@ public class controladores {
         return "redirect:/UsuarioHtml";
     }
 
-    @GetMapping("/Empresa/{id}/Usuario") //Filtrar los empleados por empresa
+    @GetMapping("/Empresa/{id}/Usuario")
     public String verUsuarioPorEmpresa(@PathVariable("id") Long id, Model model){
         List<Usuario> usuarioList = servicioUsuario.obtenerPorEmpresa(id);
         model.addAttribute("usuarioList",usuarioList);
-        return "verUsuario";
+        return "UsuarioHtml";
+    }
+    //Movimientos
+    //Interfaz Movimientos Html
+    @RequestMapping("/MovimientosHtml")
+    public String viewMovimientos(@RequestParam(value="pagina", required=false, defaultValue = "1") int NumeroPagina,
+                                  @RequestParam(value="medida", required=false, defaultValue = "5") int medida,
+                                  Model model, @ModelAttribute("mensaje") String mensaje){
+        Page<Movimientos> paginaMovimientos= repositorioMovimientos.findAll(PageRequest.of(NumeroPagina,medida));
+        model.addAttribute("movimientosList",paginaMovimientos.getContent());
+        model.addAttribute("paginas",new int[paginaMovimientos.getTotalPages()]);
+        model.addAttribute("paginaActual", NumeroPagina);
+        model.addAttribute("mensaje",mensaje);
+        Long sumaMonto=servicioMovimientos.obtenerSumaMontos();
+        model.addAttribute("SumaMontos",sumaMonto);//Mandamos la suma de todos los montos a la plantilla
+        return "MovimientosHtml"; //Llamamos al HTML
+    }
+
+    @GetMapping("/AgregarMovimientos") //Controlador que nos lleva al template donde podremos crear un nuevo movimiento
+    public String nuevoMovimientos(Model model, @ModelAttribute("mensaje") String mensaje){
+        Movimientos movimiento= new Movimientos();
+        model.addAttribute("mov",movimiento);
+        model.addAttribute("mensaje",mensaje);
+        Authentication auth= SecurityContextHolder.getContext().getAuthentication();
+        String correo=auth.getName();
+        //Long idUsuario=servicioMovimientos.IdPorCorreo(correo);
+       // model.addAttribute("idUsuario",idUsuario);
+        return "agregarMovimientos"; //Llamar HTML
+    }
+
+    @PostMapping("/GuardarMovimientos")
+    public String guardarMovimientos(Movimientos mov, RedirectAttributes redirectAttributes){
+        if(servicioMovimientos.saveOrUpdateMovimientos(mov)){
+            redirectAttributes.addFlashAttribute("mensaje","saveOK");
+            return "redirect:/MovimientosHtml";
+        }
+        redirectAttributes.addFlashAttribute("mensaje","saveError");
+        return "redirect:/AgregarMovimientos";
+    }
+
+    @GetMapping("/EditarMovimientos/{id}")
+    public String editarMovimentos(Model model, @PathVariable Long id, @ModelAttribute("mensaje") String mensaje){
+        Movimientos mov = servicioMovimientos.getMovimientoById(id);
+        //Creamos un atributo para el modelo, que se llame igualmente empl y es el que ira al html para llenar o alimentar campos
+        model.addAttribute("mov",mov);
+        model.addAttribute("mensaje", mensaje);
+        List<Usuario> usuarioList= servicioUsuario.getAllUsuario();
+        model.addAttribute("usuarioList",usuarioList);
+        return "editarMovimientos";
+    }
+
+    @PostMapping("/ActualizarMovimientos")
+    public String updateMovimientos(@ModelAttribute("mov") Movimientos mov, RedirectAttributes redirectAttributes){
+        if(servicioMovimientos.saveOrUpdateMovimientos(mov)){
+            redirectAttributes.addFlashAttribute("mensaje","updateOK");
+            return "redirect:/MovimientosHtml";
+        }
+        redirectAttributes.addFlashAttribute("mensaje","updateError");
+        return "redirect:/EditarMovimiemtos/"+mov.getId();
+
+    }
+
+    @GetMapping("/EliminarMovimientos/{id}")
+    public String eliminarMovimiento(@PathVariable Long id, RedirectAttributes redirectAttributes){
+        if (servicioMovimientos.deleteMovimientos(id)){
+            redirectAttributes.addFlashAttribute("mensaje","deleteOK");
+            return "redirect:/MovimientosHtml";
+        }
+        redirectAttributes.addFlashAttribute("mensaje", "deleteError");
+        return "redirect:/MovimientosHtml";
+    }
+
+    @GetMapping("/Usuario/{id}/Movimientos") //Filtro de movimientos por empleados
+    public String movimientosPorUsuario(@PathVariable("id")Long id, Model model){
+        List<Movimientos> movimientosList = servicioMovimientos.obtenerPorUsuario(id);
+        model.addAttribute("movimientosList",movimientosList);
+        Long sumaMonto=servicioMovimientos.MontosPorUsuario(id);
+        model.addAttribute("SumaMontos",sumaMonto);
+        return "MovimientosHtml"; //Llamamos al HTML
+    }
+
+    @GetMapping("/Empresa/{id}/Movimientos") //Filtro de movimientos por empresa
+    public String movimientosPorEmpresa(@PathVariable("id")Long id, Model model){
+        List<Movimientos> movimientosList = servicioMovimientos.obtenerPorEmpresa(id);
+        model.addAttribute("movimientosList",movimientosList);
+        Long sumaMonto=servicioMovimientos.MontosPorEmpresa(id);
+        model.addAttribute("SumaMontos",sumaMonto);
+        return "MovimientosHtml"; //Llamamos al HTML
+    }
+
+    //Controlador que me lleva al template de No autorizado
+    @RequestMapping(value="/Denegado")
+    public String accesoDenegado(){
+        return "accessDenied";
+    }
+
+
+    //Metodo para encriptar contraseñas
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
     }
 }
