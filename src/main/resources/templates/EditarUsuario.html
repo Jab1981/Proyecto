@@ -25,12 +25,12 @@
     <h1> Actualizar Usuario</h1>
     <br>
     <!--Crear formulario para llenar los datos de la empresa y guardarlo en el objeto emp -->
-    <form th:action="@{/ActualizarUsuario}" th:object="${user}" method="post">
+    <form th:action="@{/ActualizarUsuario}" th:object="${usuario}" method="post">
 
         <!--Campo para id-->
         <div class="row">
             <div class="form-group col-md-12">
-                <label class="col-md-3" for="id">ID del Empleado:</label>
+                <label class="col-md-3" for="id">ID del Usuario:</label>
                 <div class="col-md-6">
                     <input type="text" th:field="*{id}" class="form-control" id="id" required="required" readonly></div>
             </div>

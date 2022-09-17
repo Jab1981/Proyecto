@@ -124,15 +124,15 @@ public class controladores {
 
     @GetMapping("/EditarUsuario/{id}")
     public String editarUsuario(Model model, @PathVariable Long id, @ModelAttribute("mensaje") String mensaje){
-        Usuario user=servicioUsuario.getUsuarioById(id).get();
-        model.addAttribute("user",user);
+        Usuario usuario=servicioUsuario.getUsuarioById(id).get();
+        model.addAttribute("usuario",usuario);
         model.addAttribute("mensaje", mensaje);
         List<Empresa> empresaList= servicioEmpresa.getAllEmpresas();
         model.addAttribute("usuarioList",empresaList);
         return "EditarUsuario";
     }
 
-    @PostMapping("/ActualizarUsuario")
+   @PostMapping("/ActualizarUsuario")
     public String updateUsuario(@ModelAttribute("usuario") Usuario usuario, RedirectAttributes redirectAttributes){
         String passEncriptada=passwordEncoder().encode(usuario.getPassword());
         usuario.setPassword(passEncriptada);
@@ -174,24 +174,24 @@ public class controladores {
         model.addAttribute("mensaje",mensaje);
         Long sumaMonto=servicioMovimientos.obtenerSumaMontos();
         model.addAttribute("SumaMontos",sumaMonto);//Mandamos la suma de todos los montos a la plantilla
-        return "MovimientosHtml"; //Llamamos al HTML
+        return "movimientosHtml"; //Llamamos al HTML
     }
 
     @GetMapping("/AgregarMovimientos") //Controlador que nos lleva al template donde podremos crear un nuevo movimiento
     public String nuevoMovimientos(Model model, @ModelAttribute("mensaje") String mensaje){
-        Movimientos movimiento= new Movimientos();
-        model.addAttribute("mov",movimiento);
+        Movimientos movimientos= new Movimientos();
+        model.addAttribute("movimientos",movimientos);
         model.addAttribute("mensaje",mensaje);
         Authentication auth= SecurityContextHolder.getContext().getAuthentication();
         String correo=auth.getName();
-        //Long idUsuario=servicioMovimientos.IdPorCorreo(correo);
-       // model.addAttribute("idUsuario",idUsuario);
-        return "agregarMovimientos"; //Llamar HTML
+        Long idUsuario=servicioMovimientos.IdPorCorreo(correo);
+        model.addAttribute("idUsuario",idUsuario);
+        return "AgregarMovimientos"; //Llamar HTML
     }
 
     @PostMapping("/GuardarMovimientos")
-    public String guardarMovimientos(Movimientos mov, RedirectAttributes redirectAttributes){
-        if(servicioMovimientos.saveOrUpdateMovimientos(mov)){
+    public String guardarMovimientos(Movimientos movimientos, RedirectAttributes redirectAttributes){
+        if(servicioMovimientos.saveOrUpdateMovimientos(movimientos)){
             redirectAttributes.addFlashAttribute("mensaje","saveOK");
             return "redirect:/MovimientosHtml";
         }
@@ -200,24 +200,24 @@ public class controladores {
     }
 
     @GetMapping("/EditarMovimientos/{id}")
-    public String editarMovimentos(Model model, @PathVariable Long id, @ModelAttribute("mensaje") String mensaje){
-        Movimientos mov = servicioMovimientos.getMovimientoById(id);
+    public String editarMovimientos(Model model, @PathVariable Long id, @ModelAttribute("mensaje") String mensaje){
+        Movimientos movimientos = servicioMovimientos.getMovimientoById(id);
         //Creamos un atributo para el modelo, que se llame igualmente empl y es el que ira al html para llenar o alimentar campos
-        model.addAttribute("mov",mov);
+        model.addAttribute("movimientos",movimientos);
         model.addAttribute("mensaje", mensaje);
         List<Usuario> usuarioList= servicioUsuario.getAllUsuario();
         model.addAttribute("usuarioList",usuarioList);
-        return "editarMovimientos";
+        return "EditarMovimientos";
     }
 
     @PostMapping("/ActualizarMovimientos")
-    public String updateMovimientos(@ModelAttribute("mov") Movimientos mov, RedirectAttributes redirectAttributes){
-        if(servicioMovimientos.saveOrUpdateMovimientos(mov)){
+    public String updateMovimientos(@ModelAttribute("mov") Movimientos movimientos, RedirectAttributes redirectAttributes){
+        if(servicioMovimientos.saveOrUpdateMovimientos(movimientos)){
             redirectAttributes.addFlashAttribute("mensaje","updateOK");
             return "redirect:/MovimientosHtml";
         }
         redirectAttributes.addFlashAttribute("mensaje","updateError");
-        return "redirect:/EditarMovimiemtos/"+mov.getId();
+        return "redirect:/EditarMovimientos/"+movimientos.getId();
 
     }
 
@@ -251,8 +251,8 @@ public class controladores {
 
     //Controlador que me lleva al template de No autorizado
     @RequestMapping(value="/Denegado")
-    public String accesoDenegado(){
-        return "accessDenied";
+    public String AccesoDenegado(){
+        return "AccessDenied";
     }
 
 

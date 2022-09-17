@@ -22,9 +22,12 @@ public interface RepositorioMovimientos extends JpaRepository<Movimientos,Long> 
     public abstract Long SumarMonto();
 
     @Query(value="SELECT SUM(monto) from Movimientos where Usuario_id=?1", nativeQuery = true)
-    public abstract Long MontosPorUsuario(Long id); //id del empleado
+    public abstract Long MontosPorUsuario(Long id); //id usuario
 
     //Metodo para ver la suma de los movimientos por empresa
     @Query(value="select sum(monto) from Movimientos where Usuario_id in (select id from Usuario where Empresa_id= ?1)", nativeQuery = true)
     public abstract Long MontosPorEmpresa(Long id);
+
+    @Query(value="select id from Usuario where correo=?1", nativeQuery = true)
+    public abstract Long IdPorCorreo(String correo);
 }
