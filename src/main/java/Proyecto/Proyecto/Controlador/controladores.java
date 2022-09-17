@@ -106,8 +106,8 @@ public class controladores {
         model.addAttribute("usuario",usuario);
         model.addAttribute("mensaje",mensaje);
         List<Empresa> empresaList= servicioEmpresa.getAllEmpresas();
-        model.addAttribute("usuarioList",empresaList);
-        return "AgregarUsuario";
+        model.addAttribute("empresaList",empresaList);
+        return "agregarUsuario";
     }
 
     @PostMapping("/GuardarUsuario")

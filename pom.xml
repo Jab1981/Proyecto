@@ -8,11 +8,11 @@
 		<version>2.7.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.UdeA</groupId>
-	<artifactId>Ciclo3</artifactId>
+	<groupId>Proyecto</groupId>
+	<artifactId>Proyecto</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Ciclo3</name>
-	<description>Proyecto para el ciclo 3 Mision TIC 2022</description>
+	<description>Proyecto</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
