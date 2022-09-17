@@ -102,19 +102,19 @@ public class controladores {
 
     @GetMapping("/AgregarUsuario")
     public String nuevoUsuario(Model model, @ModelAttribute("mensaje") String mensaje){
-        Usuario user= new Usuario();
-        model.addAttribute("user",user);
+        Usuario usuario= new Usuario();
+        model.addAttribute("usuario",usuario);
         model.addAttribute("mensaje",mensaje);
         List<Empresa> empresaList= servicioEmpresa.getAllEmpresas();
         model.addAttribute("usuarioList",empresaList);
-        return "agregarUsuario";
+        return "AgregarUsuario";
     }
 
     @PostMapping("/GuardarUsuario")
-    public String guardarUsuario(Usuario user, RedirectAttributes redirectAttributes){
-       String passEncriptada=passwordEncoder().encode(user.getPassword());
-       user.setPassword(passEncriptada);
-        if(servicioUsuario.saveOrUpdateUsuario(user)==true){
+    public String guardarUsuario(Usuario usuario, RedirectAttributes redirectAttributes){
+       String passEncriptada=passwordEncoder().encode(usuario.getPassword());
+       usuario.setPassword(passEncriptada);
+        if(servicioUsuario.saveOrUpdateUsuario(usuario)==true){
             redirectAttributes.addFlashAttribute("mensaje","saveOK");
             return "redirect:/UsuarioHtml";
         }
@@ -133,15 +133,15 @@ public class controladores {
     }
 
     @PostMapping("/ActualizarUsuario")
-    public String updateUsuario(@ModelAttribute("user") Usuario user, RedirectAttributes redirectAttributes){
-        String passEncriptada=passwordEncoder().encode(user.getPassword());
-        user.setPassword(passEncriptada);
-        if(servicioUsuario.saveOrUpdateUsuario(user)){
+    public String updateUsuario(@ModelAttribute("usuario") Usuario usuario, RedirectAttributes redirectAttributes){
+        String passEncriptada=passwordEncoder().encode(usuario.getPassword());
+        usuario.setPassword(passEncriptada);
+        if(servicioUsuario.saveOrUpdateUsuario(usuario)){
             redirectAttributes.addFlashAttribute("mensaje","updateOK");
             return "redirect:/UsuarioHtml";
         }
         redirectAttributes.addFlashAttribute("mensaje","updateError");
-        return "redirect:/EditarUsuario/"+user.getId();
+        return "redirect:/EditarUsuario/"+usuario.getId();
 
     }
 

@@ -29,9 +29,9 @@ public class ServicioUsuario {
         return repositorioUsuario.findByEmpresa(id);
     }
 
-    public boolean saveOrUpdateUsuario(Usuario user){
-        Usuario usa=repositorioUsuario.save(user);
-        if (repositorioUsuario.findById(usa.getId())!=null){
+    public boolean saveOrUpdateUsuario(Usuario usuario){
+        Usuario usuario1=repositorioUsuario.save(usuario);
+        if (repositorioUsuario.findById(usuario1.getId())!=null){
             return true;
         }
         return false;

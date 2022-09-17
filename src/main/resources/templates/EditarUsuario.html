@@ -58,7 +58,7 @@
         <!--Campo para empresa-->
         <div class="row">
             <div class="form-group col-md-12">
-                <label class="col-md-3" for="empresa">Empresa a la que pertence:</label>
+                <label class="col-md-3" for="Empresa">Empresa a la que pertence:</label>
                 <div class="col-md-6">
                     <select th:field="*{Empresa}" class="form-control" id="Empresa" required="required">
                         <option th:each="Empresa : ${empresaList}" th:text="${Empresa.nombre}" th:value="${Empresa.id}"></option>

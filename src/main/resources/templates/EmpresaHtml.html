@@ -43,7 +43,7 @@
 
     <!--Llenamos la tabla dibujada-->
     <!--En nuestro controller, creamos en viewEmpresa un modelo con un atributo llamado emplist donde esta guardada la lista de todas las empresas-->
-    <tr th:each="Empresa : ${usuarioList}">
+    <tr th:each="Empresa : ${empresaList}">
         <td th:text="${Empresa.id}"></td>
         <td th:text="${Empresa.nombre}"></td>
         <td th:text="${Empresa.direccion}"></td>

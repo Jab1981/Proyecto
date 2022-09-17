@@ -41,7 +41,7 @@
 
   <!--Llenamos la tabla dibujada-->
   <!--En nuestro controller, creamos en viewEmpleados un modelo con un atributo llamado emplelist donde esta guardada la lista de todos los empleados-->
-  <tr th:each="Usuario : ${emplelist}">
+  <tr th:each="Usuario : ${usuarioList}">
     <td th:text="${Usuario.id}"></td>
     <td th:text="${Usuario.nombre}"></td>
     <td th:text="${Usuario.correo}"></td>
@@ -57,7 +57,7 @@
 </table>
 
   <!-- vamos a crear un boton que sirva para agregar nuevos empleados -->
-  <button type="button" class="btn btn-info"><a th:href="@{/agregarUsuario}">Agregar Nuevo Usuario</a></button>
+  <button type="button" class="btn btn-info"><a th:href="@{/AgregarUsuario}">Agregar Nuevo Usuario</a></button>
   <br><br>
   <!-- boton que me lleva a la lista de empresas -->
   <button type="button" class="btn btn-primary"><a th:href="@{/EmpresaHtml}">Ver lista de Empresas</a></button>
