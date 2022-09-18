@@ -1,18 +1,25 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<html lang="en"   xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Orlando Impresiones SAS</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <div class="lineal"></div>
-
-</style>
     <style>
+
+    h1 {
+    font-size: 36px;
+    color: #000;
+    font-family: 'Open Sans';
+    }
+
     a{
     color:white;
     }
@@ -26,12 +33,18 @@
 
 <div class="container">
     <button type="button" class="btn btn-danger" style="float:right"><a th:href="@{/logout}">Cerrar Sesión</a></button>
-    <h1>Orlando impresiones</h1>
+    <div class="w3-container w3-teal w-black">
+        <h1>Impresiones Orlando</h1>
+    </div>
     <br>
     <h2> Lista de Servicio Orlando impresiones</h2>
     <!--Dibujamos la tabla-->
-    <br><table class="table table-bordered">
-    <tr>
+
+    <br>
+
+    <table class="w3-table-all w3-hoverable w3-centered table-bordered">
+        <thead>
+    <tr class="w3-light-grey">
         <th>ID</th>
         <th>Nombre</th>
         <th>Dirección</th>
@@ -41,9 +54,8 @@
         <th>Movimientos</th>
         <th>Editar</th>
         <th>Eliminar</th>
-
     </tr>
-
+        </thead>
     <!--Llenamos la tabla dibujada-->
     <!--En nuestro controller, creamos en viewEmpresa un modelo con un atributo llamado emplist donde esta guardada la lista de todas las empresas-->
     <tr th:each="Empresa : ${empresaList}">
@@ -93,6 +105,10 @@
     }
 
 </script>
-
+<div class="lines">
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+</div>
 </body>
 </html>

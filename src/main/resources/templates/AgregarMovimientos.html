@@ -26,7 +26,7 @@
     <h1> Agregue datos del Movimiento</h1>
     <br>
     <!--Crear formulario para llenar los datos del movimiento y guardarlo en el objeto mov -->
-    <form th:action="@{/GuardarMovimientos}" th:object="${movimientos}" method="post">
+    <form th:action="@{/GuardarMovimiento}" th:object="${mov}" method="post">
         <!--Campo para Concepto-->
         <div class="row">
             <div class="form-group col-md-12">
@@ -59,9 +59,9 @@
         <!--Campo para empleado (usuario responsable)-->
         <div class="row">
             <div class="form-group col-md-12">
-                <label class="col-md-3" for="Usuario">Usuario responsable:</label>
+                <label class="col-md-3" for="usuario">Usuario responsable:</label>
                 <div class="col-md-6">
-                    <select th:field="*{Usuario}" class="form-control" id="Usuario" required="required" readonly>
+                    <select th:field="*{usuario}" class="form-control" id="usuario" required="required" readonly>
                         <option th:text="${#httpServletRequest.remoteUser}" th:value="${idUsuario}"></option>
                     </select>
                 </div>
@@ -76,6 +76,10 @@
                     <input type="date" th:field="*{fecha}" class="form-control" id="fecha" required="required" readonly></div>
             </div>
         </div>
+
+
+
+
         <!--Boton para enviar todo y ejecutar accion -->
         <div class="row">
             <div class="col-md-2">
@@ -86,7 +90,7 @@
     </form>
 
     <br>
-    <a href="javascript: history.go(-1)" class="btn btn-info" rol="button">Atrás</a>
+    <a href="javascript: history.go(-1)" class="btn btn-info" role="button">Atrás</a>
 
 </div>
 <script th:inline="javascript">

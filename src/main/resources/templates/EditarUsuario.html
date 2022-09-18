@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Editar Usuario</title>
+    <title>Editar Empleado - Ciclo3</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -22,10 +22,10 @@
 <div class="container">
     <p th:inline="text" class="text-right">User: [[${#httpServletRequest.remoteUser}]]</p>
     <button type="button" class="btn btn-danger" style="float:right"><a th:href="@{/logout}">Cerrar Sesión</a></button>
-    <h1> Actualizar Usuario</h1>
+    <h1> Actualice aqui los datos del Usuario</h1>
     <br>
     <!--Crear formulario para llenar los datos de la empresa y guardarlo en el objeto emp -->
-    <form th:action="@{/ActualizarUsuario}" th:object="${usuario}" method="post">
+    <form th:action="@{/ActualizarUsuario}" th:object="${empl}" method="post">
 
         <!--Campo para id-->
         <div class="row">
@@ -61,7 +61,7 @@
                 <label class="col-md-3" for="Empresa">Empresa a la que pertence:</label>
                 <div class="col-md-6">
                     <select th:field="*{Empresa}" class="form-control" id="Empresa" required="required">
-                        <option th:each="Empresa : ${empresaList}" th:text="${Empresa.nombre}" th:value="${Empresa.id}"></option>
+                        <option th:each="Empresa : ${emprelist}" th:text="${Empresa.nombre}" th:value="${Empresa.id}"></option>
                     </select>
                 </div>
             </div>
@@ -70,7 +70,7 @@
         <!--Campo para Rol-->
         <div class="row">
             <div class="form-group col-md-12">
-                <label class="col-md-3" for="rol">Rol del empleado:</label>
+                <label class="col-md-3" for="rol">Rol del usuario:</label>
                 <div class="col-md-6">
                     <select th:field="*{rol}" class="form-control" id="rol" required="required">
                         <option th:value="ROLE_ADMIN">Administrativo</option>
@@ -83,7 +83,7 @@
         <!--Campo para contraseña-->
         <div class="row">
             <div class="form-group col-md-12">
-                <label class="col-md-3" for="password">Contraseña del Usuario:</label>
+                <label class="col-md-3" for="password">Contraseña del usuario:</label>
                 <div class="col-md-6">
                     <input type="text" th:field="*{password}" class="form-control" id="password"></div>
             </div>
@@ -92,7 +92,7 @@
         <!--Campo para Estado-->
         <div class="row">
             <div class="form-group col-md-12">
-                <label class="col-md-3" for="estado">Estado del Usuario:</label>
+                <label class="col-md-3" for="estado">Estado actual del usuario:</label>
                 <div class="col-md-6">
                     <select th:field="*{estado}" class="form-control" id="estado" required="required">
                         <option th:value=1>Activo</option>

@@ -22,6 +22,7 @@
 <body>
 
 <div class="container">
+  <p th:inline="text" class="text-right">User: [[${#httpServletRequest.remoteUser}]]</p>
   <button type="button" class="btn btn-danger" style="float:right"><a th:href="@{/logout}">Cerrar Sesión</a></button>
 
   <h1> Lista de Usuarios</h1>
@@ -41,15 +42,15 @@
 
   <!--Llenamos la tabla dibujada-->
   <!--En nuestro controller, creamos en viewEmpleados un modelo con un atributo llamado emplelist donde esta guardada la lista de todos los empleados-->
-  <tr th:each="Usuario : ${usuarioList}">
-    <td th:text="${Usuario.id}"></td>
-    <td th:text="${Usuario.nombre}"></td>
-    <td th:text="${Usuario.correo}"></td>
-    <td th:text="${Usuario.Empresa.nombre}"></td>
-    <td th:if="${Usuario.rol=='1'}">Administrativo</td>
-    <td th:if="${Usuario.rol=='2'}">Operativo</td>
-    <td th:if="${Usuario.estado==true}">Activo</td>
-    <td th:if="${Usuario.estado==false}">Inactivo</td>
+  <tr th:each="usuario : ${emplelist}">
+    <td th:text="${usuario.id}"></td>
+    <td th:text="${usuario.nombre}"></td>
+    <td th:text="${usuario.correo}"></td>
+    <td th:text="${usuario.Empresa.nombre}"></td>
+    <td th:if="${usuario.rol=='ROLE_ADMIN'}">Administrativo</td>
+    <td th:if="${usuario.rol=='ROLE_USER'}">Operativo</td>
+    <td th:if="${usuario.estado==true}">Activo</td>
+    <td th:if="${usuario.estado==false}">Inactivo</td>
     <td><button type="button" class="btn btn-info"><a th:href="@{/Usuario/{id}/Movimientos(id=${Usuario.id})}">Ver</a></button></td>
     <td><button type="button" class="btn btn-warning"><a th:href="@{/EditarUsuario/{id}(id=${Usuario.id})}">Editar</a></button></td>
     <td><button type="button" class="btn btn-danger"><a th:href="@{/EliminarUsuario/{id}(id=${Usuario.id})}">Eliminar</a></button></td>
@@ -68,16 +69,16 @@
 
         var msg= [[${mensaje}]];
         if (msg == "saveOK"){
-            Command : toastr["success"]("Usuario registrado con éxito!")
+            Command : toastr["success"]("Empleado registrado con éxito!")
             }
         else if (msg == "updateOK"){
-            Command : toastr["success"]("Usuario actualizado con éxito!")
+            Command : toastr["success"]("Empleado actualizado con éxito!")
         }
         else if (msg == "deleteOK"){
-            Command : toastr["error"]("Registro de usuario eliminado con éxito!")
+            Command : toastr["error"]("Registro de empleado eliminado con éxito!")
         }
         else if (msg == "deleteError"){
-            Command : toastr["error"]("Registro de usuario no ha sido eliminado!")
+            Command : toastr["error"]("Registro de empleado no ha sido eliminado!")
         }
         toastr.options={
             "positionClass": "toast-top-right",

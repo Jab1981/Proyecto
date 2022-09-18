@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Movimientos</title>
+  <title>Lista de Movimientos</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -40,21 +40,21 @@
 
   <!--Llenamos la tabla dibujada-->
   <!--En nuestro controller, creamos en viewMovimientos un modelo con un atributo llamado movlist donde esta guardada la lista de todos los movimientos-->
-  <tr th:each="Movimientos : ${movimientosList}">
-    <td th:text="${Movimientos.id}"></td>
-    <td class="text-right" th:text="${#numbers.formatCurrency(Movimientos.monto)}"></td>
-    <td th:if="${Movimientos.concepto=='1'}">Papeleria</td>
-    <td th:if="$Movimientos.concepto=='2'}">Servicios Publicos/privados</td>
-    <td th:if="${Movimientos.concepto=='3'}">Operativos</td>
-    <td th:if="${Movimientos.concepto=='4'}">Caja Menor</td>
-    <td th:if="${Movimientos.concepto=='5'}">Tributario</td>
-    <td th:if="${Movimientos.concepto=='6'}">Mobiliario</td>
-    <td th:if="${Movimientos.concepto=='7'}">Maquinaria y Equipo</td>
-    <td th:if="${Movimientos.concepto=='8'}">Nomina</td>
-    <td th:text="${Movimientos.Usuario.nombre}"></td>
-    <td th:text="${#dates.format(movimientos.fecha, 'dd/MM/yyyy')}"></td>
-    <td><button type="button" class="btn btn-warning"><a th:href="@{/EditarMovimientos/{id}(id=${Movimientos.id})}">Editar</a></button></td>
-    <td><button type="button" class="btn btn-danger"><a th:href="@{/EliminarMovimientos/{id}(id=${Movimientos.id})}">Eliminar</a></button></td>
+  <tr th:each="movimiento : ${movlist}">
+    <td th:text="${movimiento.id}"></td>
+    <td class="text-right" th:text="${#numbers.formatCurrency(movimiento.monto)}"></td>
+    <td th:if="${movimiento.concepto=='1'}">Papeleria</td>
+    <td th:if="${movimiento.concepto=='2'}">Servicios Publicos/privados</td>
+    <td th:if="${movimiento.concepto=='3'}">Operativos</td>
+    <td th:if="${movimiento.concepto=='4'}">Caja Menor</td>
+    <td th:if="${movimiento.concepto=='5'}">Tributario</td>
+    <td th:if="${movimiento.concepto=='6'}">Mobiliario</td>
+    <td th:if="${movimiento.concepto=='7'}">Maquinaria y Equipo</td>
+    <td th:if="${movimiento.concepto=='8'}">Nomina</td>
+    <td th:text="${movimiento.usuario.nombre}"></td>
+    <td th:text="${#dates.format(movimiento.fecha, 'dd/MM/yyyy')}"></td>
+    <td><button type="button" class="btn btn-warning"><a th:href="@{/EditarMovimiento/{id}(id=${movimiento.id})}">Editar</a></button></td>
+    <td><button type="button" class="btn btn-danger"><a th:href="@{/EliminarMovimiento/{id}(id=${movimiento.id})}">Eliminar</a></button></td>
   </tr>
 </table>
 
@@ -80,7 +80,7 @@
   </div>
 
   <!-- vamos a crear un boton que sirva para agregar nuevos movimientos -->
-  <button type="button" class="btn btn-info"><a th:href="@{/AgregarMovimientos}">Agregar Nuevo Movimiento</a></button>
+  <button type="button" class="btn btn-info"><a th:href="@{/agregarMovimiento}">Agregar Nuevo Movimiento</a></button>
   <br><br>
   <!-- boton que me lleva a la lista de empresas -->
   <button type="button" class="btn btn-primary"><a th:href="@{/EmpresaHtml}">Ver lista de Empresas</a></button>

@@ -23,10 +23,10 @@
     <p th:inline="text" class="text-right">User: [[${#httpServletRequest.remoteUser}]]</p>
     <button type="button" class="btn btn-danger" style="float:right"><a th:href="@{/logout}">Cerrar Sesión</a></button>
 
-    <h1> Modifique aqui los datos del Movimiento</h1>
+    <h1> Modifique los datos del Movimiento</h1>
     <br>
     <!--Crear formulario para cambiar los datos del movimiento y guardarlo en el objeto mov -->
-    <form th:action="@{/ActualizarMovimientos}" th:object="${movimientos}" method="post">
+    <form th:action="@{/ActualizarMovimiento}" th:object="${mov}" method="post">
         <!--Campo para id-->
         <div class="row">
             <div class="form-group col-md-12">
@@ -98,7 +98,7 @@
     </form>
 
     <br>
-    <a href="javascript: history.go(-1)" class="btn btn-info" rol="button">Atrás</a>
+    <a href="javascript: history.go(-1)" class="btn btn-info" role="button">Atrás</a>
 
 </div>
 

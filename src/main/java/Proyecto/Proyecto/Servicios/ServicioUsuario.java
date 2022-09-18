@@ -22,24 +22,29 @@ public class ServicioUsuario {
         return usuarioList;
     }
 
-        public Optional<Usuario> getUsuarioById(Long id){
+    //Metodo para buscar empleados por ID
+    public Optional<Usuario> getUsuarioById(Long id){ //Existe optional y asi se podria usar
+
         return repositorioUsuario.findById(id);
     }
+
+    //Metodo para buscar empleados por empresa
     public ArrayList<Usuario> obtenerPorEmpresa(Long id){
         return repositorioUsuario.findByEmpresa(id);
     }
 
-    public boolean saveOrUpdateUsuario(Usuario usuario){
-        Usuario usuario1=repositorioUsuario.save(usuario);
-        if (repositorioUsuario.findById(usuario1.getId())!=null){
+    //Metodo para guardar o actualizar registros en Empleados
+    public boolean saveOrUpdateUsuario(Usuario empl){
+        Usuario emp=repositorioUsuario.save(empl);
+        if (repositorioUsuario.findById(emp.getId())!=null){
             return true;
         }
         return false;
     }
 
-
+    //Metodo para eliminar un registro de Empleado por Id
     public boolean deleteUsuario(Long id){
-       repositorioUsuario.deleteById(id);
+        repositorioUsuario.deleteById(id);
         if(this.repositorioUsuario.findById(id).isPresent()){
             return false;
         }
