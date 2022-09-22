@@ -14,9 +14,9 @@ public class ServicioMovimientos {
     RepositorioMovimientos repositorioMovimientos;
 
     public List<Movimientos> getAllMovimientos(){ //Metodo que me muestra todos los movimientos sin ningn filtro
-        List<Movimientos> movimientosList = new ArrayList<>();
-        repositorioMovimientos.findAll().forEach(movimiento -> movimientosList.add(movimiento));  //Recorremos el iterable que regresa el metodo findAll del Jpa y lo guardamos en la lista creada
-        return movimientosList;
+        List<Movimientos> movlist = new ArrayList<>();
+        repositorioMovimientos.findAll().forEach(movimiento -> movlist.add(movimiento));  //Recorremos el iterable que regresa el metodo findAll del Jpa y lo guardamos en la lista creada
+        return movlist;
     }
 
     public Movimientos getMovimientoById(Long id){ //Ver movimientos por id

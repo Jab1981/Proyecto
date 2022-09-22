@@ -38,8 +38,8 @@ public class controladores {
     //Interfaz empresa Html
     @GetMapping({"/","/EmpresaHtml"})
     public String viewEmpresas(Model model, @ModelAttribute("mensaje") String mensaje){
-        List<Empresa> empresaList=servicioEmpresa.getAllEmpresas();
-        model.addAttribute("empresaList",empresaList);
+        List<Empresa> listaEmpresas=servicioEmpresa.getAllEmpresas();
+        model.addAttribute("emplist",listaEmpresas);
         model.addAttribute("mensaje",mensaje);
         return "EmpresaHtml";
     }
@@ -82,7 +82,7 @@ public class controladores {
     }
 
     @GetMapping("/EliminarEmpresa/{id}")
-    public String EliminarEmpresa(@PathVariable Long id, RedirectAttributes redirectAttributes){
+    public String eliminarEmpresa(@PathVariable Long id, RedirectAttributes redirectAttributes){
         if (servicioEmpresa.deleteEmpresa(id)==true){
             redirectAttributes.addFlashAttribute("mensaje","deleteOK");
             return "redirect:/EmpresaHtml";
@@ -92,7 +92,7 @@ public class controladores {
     }
     //Usuario
     //Interfaz Usuario Html
-    @GetMapping ("/usuarioHtml")
+    @GetMapping ("/UsuarioHtml")
     public String viewUsuario(Model model, @ModelAttribute("mensaje") String mensaje){
         List<Usuario> listaUsuarios=servicioUsuario.getAllUsuario();
         model.addAttribute("emplelist",listaUsuarios);
@@ -100,8 +100,8 @@ public class controladores {
         return "UsuarioHtml"; //Llamamos al HTML
     }
 
-    @GetMapping("/agregarUsuario")
-    public String nuevoEmpleado(Model model, @ModelAttribute("mensaje") String mensaje){
+    @GetMapping("/AgregarUsuario")
+    public String nuevoUsuario(Model model, @ModelAttribute("mensaje") String mensaje){
         Usuario empl= new Usuario();
         model.addAttribute("empl",empl);
         model.addAttribute("mensaje",mensaje);
@@ -116,10 +116,10 @@ public class controladores {
         empl.setPassword(passEncriptada);
         if(servicioUsuario.saveOrUpdateUsuario(empl)==true){
             redirectAttributes.addFlashAttribute("mensaje","saveOK");
-            return "redirect:/usuarioHtml";
+            return "redirect:/UsuarioHtml";
         }
         redirectAttributes.addFlashAttribute("mensaje","saveError");
-        return "redirect:/agregarUsuario";
+        return "redirect:/AgregarUsuario";
     }
 
     @GetMapping("/EditarUsuario/{id}")
@@ -183,8 +183,8 @@ public class controladores {
         return "MovimientosHtml"; //Llamamos al HTML
     }
 
-    @GetMapping("/agregarMovimientos") //Controlador que nos lleva al template donde podremos crear un nuevo movimiento
-    public String nuevoMovimiento(Model model, @ModelAttribute("mensaje") String mensaje){
+    @GetMapping("/AgregarMovimientos") //Controlador que nos lleva al template donde podremos crear un nuevo movimiento
+    public String nuevoMovimientos(Model model, @ModelAttribute("mensaje") String mensaje){
         Movimientos movimiento= new Movimientos();
         model.addAttribute("mov",movimiento);
         model.addAttribute("mensaje",mensaje);
@@ -192,43 +192,43 @@ public class controladores {
         String correo=auth.getName();
         Long idUsuario=servicioMovimientos.IdPorCorreo(correo);
         model.addAttribute("idUsuario",idUsuario);
-        return "AgregarMovimiento"; //Llamar HTML
+        return "AgregarMovimientos"; //Llamar HTML
     }
 
-    @PostMapping("/GuardarMovimiento")
-    public String guardarMovimiento(Movimientos mov, RedirectAttributes redirectAttributes){
+    @PostMapping("/GuardarMovimientos")
+    public String guardarMovimientos(Movimientos mov, RedirectAttributes redirectAttributes){
         if(servicioMovimientos.saveOrUpdateMovimiento(mov)){
             redirectAttributes.addFlashAttribute("mensaje","saveOK");
-            return "redirect:/VerMovimientos";
+            return "redirect:/MovimientosHtml";
         }
         redirectAttributes.addFlashAttribute("mensaje","saveError");
-        return "redirect:/agregarMovimiento";
+        return "redirect:/AgregarMovimientos";
     }
 
-    @GetMapping("/editarMovimiento/{id}")
-    public String editarMovimento(Model model, @PathVariable Long id, @ModelAttribute("mensaje") String mensaje){
+    @GetMapping("/EditarMovimientos/{id}")
+    public String editarMovimientos(Model model, @PathVariable Long id, @ModelAttribute("mensaje") String mensaje){
         Movimientos mov=servicioMovimientos.getMovimientoById(id);
         //Creamos un atributo para el modelo, que se llame igualmente empl y es el que ira al html para llenar o alimentar campos
         model.addAttribute("mov",mov);
         model.addAttribute("mensaje", mensaje);
         List<Usuario> listaUsuario= servicioUsuario.getAllUsuario();
         model.addAttribute("emplelist",listaUsuario);
-        return "EditarMovimiento";
+        return "EditarMovimientos";
     }
 
-    @PostMapping("/ActualizarMovimiento")
-    public String updateMovimiento(@ModelAttribute("mov") Movimientos mov, RedirectAttributes redirectAttributes){
+    @PostMapping("/ActualizarMovimientos")
+    public String updateMovimientos(@ModelAttribute("mov") Movimientos mov, RedirectAttributes redirectAttributes){
         if(servicioMovimientos.saveOrUpdateMovimiento(mov)){
             redirectAttributes.addFlashAttribute("mensaje","updateOK");
             return "redirect:/MovimientosHtml";
         }
         redirectAttributes.addFlashAttribute("mensaje","updateError");
-        return "redirect:/EditarMovimiento/"+mov.getId();
+        return "redirect:/EditarMovimientos/"+mov.getId();
 
     }
 
-    @GetMapping("/EliminarMovimiento/{id}")
-    public String eliminarMovimiento(@PathVariable Long id, RedirectAttributes redirectAttributes){
+    @GetMapping("/EliminarMovimientos/{id}")
+    public String eliminarMovimientos(@PathVariable Long id, RedirectAttributes redirectAttributes){
         if (servicioMovimientos.deleteMovimiento(id)){
             redirectAttributes.addFlashAttribute("mensaje","deleteOK");
             return "redirect:/MovimientosHtml";

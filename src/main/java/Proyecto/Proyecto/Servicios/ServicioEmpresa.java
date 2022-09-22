@@ -14,9 +14,9 @@ public class ServicioEmpresa {
     RepositorioEmpresa repositorioEmpresa;
 
     public List<Empresa> getAllEmpresas(){
-        List<Empresa> empresaList = new ArrayList<>();
-        repositorioEmpresa.findAll().forEach(empresa -> empresaList.add(empresa));
-        return empresaList;
+        List<Empresa> listaEmpresas = new ArrayList<>();
+        repositorioEmpresa.findAll().forEach(empresa -> listaEmpresas.add(empresa));
+        return listaEmpresas;
     }
 
 

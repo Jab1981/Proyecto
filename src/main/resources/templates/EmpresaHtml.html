@@ -12,17 +12,27 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <style>
-      .navbar {
-      margin-bottom: 0;
-      border-radius:0;
+    a{
+    color:white;
+    font-family:Helvetica;
+    }
+    a:hover {
+    color: black;
+    text-decoration:none;
+    }
+    .container{
+
+
     }
      h1 {
       color: white;
-      padding: 15px;
+      padding: 5px;
+      font-family:Helvetica;
     }
       body{
       background:linear-gradient(90deg, black 15%, white 250%);
      }
+
 
   </style>
 </head>
@@ -38,7 +48,7 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
-                <li><a th:href="@{/UsuarioHtml}"><span class="glyphicon glyphicon-user"></span>Ver Usuario</a></li>
+                <li><a th:href="@{/UsuarioHtml}"><span class="glyphicon glyphicon-user"></span> Ver Usuario</a></li>
                 <li><a th:href="@{/AgregarEmpresa}"><span class="glyphicon glyphicon-home"></span> Agregar Empresa</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -49,9 +59,8 @@
 </nav>
 <div h1 class="container-fluid text-center">
     <h1>Lista de Empresas</h1>
-
 </div>
-<div class="container-fluid center">
+<div class="container-fluid bg-dark text-white">
     <table class="w3-table-all w3-hoverable w3-centered table-bordered">
         <thead>
     <tr class="w3-light-grey">
@@ -68,7 +77,7 @@
         </thead>
     <!--Llenamos la tabla dibujada-->
     <!--En nuestro controller, creamos en viewEmpresa un modelo con un atributo llamado emplist donde esta guardada la lista de todas las empresas-->
-    <tr th:each="Empresa : ${empresaList}">
+    <tr th:each="Empresa : ${emplist}">
         <td th:text="${Empresa.id}"></td>
         <td th:text="${Empresa.nombre}"></td>
         <td th:text="${Empresa.direccion}"></td>

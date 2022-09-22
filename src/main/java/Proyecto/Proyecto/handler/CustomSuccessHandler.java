@@ -6,6 +6,7 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -19,7 +20,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
             throws IOException {
-        String targetUrl = determineTargetUrl(authentication);
+        String targetUrl = determineTargetUrl(authentication); //LLamo al metodo que me da la url a donde debo ir
         if (response.isCommitted()) {
             System.out.println("No se puede redireccionar");
             return;
@@ -32,15 +33,15 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String url = "";
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
-        List<String> rol = new ArrayList<String>();
+        List<String> roles = new ArrayList<String>();
 
         for (GrantedAuthority a : authorities) {
-            rol.add(a.getAuthority());
+            roles.add(a.getAuthority());
         }
 
-        if (esAdministrativo(rol)) {
-            url = "/EmpresasHtml";
-        } else if (esOperativo(rol)) {
+        if (esAdministrativo(roles)) {
+            url = "/EmpresaHtml";
+        } else if (esOperativo(roles)) {
             url = "/MovimientosHtml";
         } else {
             url = "/Denegado";
@@ -49,15 +50,15 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     }
 
 
-    private boolean esOperativo(List<String> rol) {
-        if (rol.contains("ROLE_USER")) {
+    private boolean esOperativo(List<String> roles) {
+        if (roles.contains("ROLE_USER")) {
             return true;
         }
         return false;
     }
 
-    private boolean esAdministrativo(List<String> rol) {
-        if (rol.contains("ROLE_ADMIN")) {
+    private boolean esAdministrativo(List<String> roles) {
+        if (roles.contains("ROLE_ADMIN")) {
             return true;
         }
         return false;

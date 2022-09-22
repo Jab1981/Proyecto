@@ -42,15 +42,15 @@
 
   <!--Llenamos la tabla dibujada-->
   <!--En nuestro controller, creamos en viewEmpleados un modelo con un atributo llamado emplelist donde esta guardada la lista de todos los empleados-->
-  <tr th:each="usuario : ${emplelist}">
-    <td th:text="${usuario.id}"></td>
-    <td th:text="${usuario.nombre}"></td>
-    <td th:text="${usuario.correo}"></td>
-    <td th:text="${usuario.Empresa.nombre}"></td>
-    <td th:if="${usuario.rol=='ROLE_ADMIN'}">Administrativo</td>
-    <td th:if="${usuario.rol=='ROLE_USER'}">Operativo</td>
-    <td th:if="${usuario.estado==true}">Activo</td>
-    <td th:if="${usuario.estado==false}">Inactivo</td>
+  <tr th:each="Usuario : ${emplelist}">
+    <td th:text="${Usuario.id}"></td>
+    <td th:text="${Usuario.nombre}"></td>
+    <td th:text="${Usuario.correo}"></td>
+    <td th:text="${Usuario.Empresa.nombre}"></td>
+    <td th:if="${Usuario.rol=='ROLE_ADMIN'}">Administrador</td>
+    <td th:if="${Usuario.rol=='ROLE_USER'}">Usuario</td>
+    <td th:if="${Usuario.estado==true}">Activo</td>
+    <td th:if="${Usuario.estado==false}">Inactivo</td>
     <td><button type="button" class="btn btn-info"><a th:href="@{/Usuario/{id}/Movimientos(id=${Usuario.id})}">Ver</a></button></td>
     <td><button type="button" class="btn btn-warning"><a th:href="@{/EditarUsuario/{id}(id=${Usuario.id})}">Editar</a></button></td>
     <td><button type="button" class="btn btn-danger"><a th:href="@{/EliminarUsuario/{id}(id=${Usuario.id})}">Eliminar</a></button></td>
